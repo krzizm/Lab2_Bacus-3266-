@@ -1,87 +1,101 @@
-# CPU Scheduler Simulator
+# CPU Scheduler Simulator with Enhanced Visualization
 
-A friendly Python-based CPU scheduling simulator that helps you understand how different scheduling algorithms work. This tool simulates both preemptive and non-preemptive scheduling algorithms, perfect for learning OS concepts or testing different scheduling scenarios.
+A command-line based CPU scheduling simulator that brings scheduling algorithms to life with detailed visualizations. Perfect for learning OS concepts, testing different scheduling scenarios, and understanding process execution patterns.
 
-## What's Inside? 🚀
+## Features 🚀
 
-This simulator implements five popular CPU scheduling algorithms:
+### Scheduling Algorithms
+The simulator implements five key CPU scheduling algorithms:
 
-### Non-preemptive Algorithms
-- **First Come First Serve (FCFS)**: The simplest one - first process to arrive gets to run first
-- **Shortest Job First (SJF)**: Picks the process with the shortest execution time
-- **Priority Scheduling**: Processes with higher priority (lower number) get to run first
+#### Non-preemptive Algorithms
+- **First Come First Serve (FCFS)**: Simple queue-based processing
+- **Shortest Job First (SJF)**: Optimizes for shortest execution time
+- **Priority Scheduling**: Process execution based on priority levels
 
-### Preemptive Algorithms
-- **Round Robin (RR)**: Gives each process a fair time slice to run
-- **Shortest Remaining Time First (SRTF)**: Like SJF, but can switch to a shorter process that arrives
+#### Preemptive Algorithms
+- **Round Robin (RR)**: Fair execution with time quantum
+- **Shortest Remaining Time First (SRTF)**: Dynamic version of SJF
 
-## Getting Started 🎯
+### Visualization Features
+- **Enhanced Gantt Chart**:
+  - Clear process execution blocks
+  - Timeline markers for precise timing
+  - Visual representation of idle time
+  - Detailed process execution table
+- **Comprehensive Metrics**:
+  - Individual process statistics
+  - Average turnaround times
+  - Average waiting times
 
-### Requirements
-- Python 3.7 or newer (we use some cool features like dataclasses)
+## Quick Start Guide 🎯
 
-### Running the Simulator
+### Prerequisites
+- Python 3.7 or newer installed on your system
+
+### Installation
 1. Save the code as `cpu_scheduler.py`
-2. Open your terminal
-3. Navigate to where you saved the file
-4. Run it with: `python cpu_scheduler.py`
+2. Open your terminal/command prompt
+3. Navigate to the file location
+4. Run: `python cpu_scheduler.py`
 
-That's it! The menu will guide you through the rest.
+### Basic Usage
+1. Choose a scheduling algorithm (1-5)
+2. Enter the number of processes
+3. For each process, provide:
+   - Arrival time
+   - Burst time
+   - Priority (if using Priority Scheduling)
+   - Time quantum (for Round Robin only)
 
-## How to Use 📝
+## Understanding the Output 📊
 
-1. When you run the program, you'll see a menu with options 1-6
-2. Choose your scheduling algorithm
-3. Enter the number of processes you want to simulate
-4. For each process, you'll need to provide:
-   - Arrival time (when the process shows up)
-   - Burst time (how long it needs to run)
-   - Priority (only for Priority Scheduling)
-   - Time quantum (only for Round Robin)
+### Gantt Chart
+```
+====================================
+--P1----P2--P3-----P4--
+------------------------
+0 1  4  6  8   12  15
+```
+- Each block shows when a process runs
+- Numbers below show exact timings
+- Dashes indicate process boundaries
 
-## What You'll Get 📊
+### Process Details
+```
+Process Execution Details:
+--------------------------
+Process | Start | End | Duration
+P1     |   0   |  4  |    4
+P2     |   4   |  7  |    3
+```
+- Shows exact timing for each process
+- Helps track process execution order
+- Makes it easy to verify scheduling decisions
 
-The simulator shows you:
-- A Gantt chart showing when each process runs
-- Turnaround Time (TAT) for each process
-- Waiting Time (WT) for each process
-- Average TAT and WT for all processes
-
-## Understanding the Code 🔍
+## Code Structure 🔧
 
 ### Key Components
 
 #### Process Class
-Handles all the info about each process:
 ```python
 @dataclass
 class Process:
     pid: int                    # Process ID
-    arrival_time: int           # When it arrives
-    burst_time: int             # How long it needs
-    priority: Optional[int]     # Its priority level
-    remaining_time: int = None  # Time left to finish
+    arrival_time: int           # Arrival time
+    burst_time: int             # Execution time needed
+    priority: Optional[int]     # Priority level
 ```
 
-#### CPUScheduler Class
-The brain of the operation! Contains:
-- Methods for each scheduling algorithm
-- Gantt chart generation
-- Metric calculations
-
-### Cool Features
-
-- **Menu-driven interface**: No need to modify code, just follow the prompts
-- **Visual Gantt chart**: See exactly when each process runs
-- **Detailed metrics**: Get insights into how efficiently processes are running
-- **Flexible input**: Test different scenarios easily
+#### Scheduler Class
+- Implements all scheduling algorithms
+- Handles process management
+- Generates visualizations
+- Calculates metrics
 
 ## Example Usage 💡
 
-Here's a quick example with 3 processes using FCFS:
-
+Here's a simple FCFS example:
 ```
-Choose an algorithm (1-6): 1
 Enter number of processes: 3
 
 Process 1:
@@ -96,31 +110,64 @@ Process 3:
 Arrival time: 2
 Burst time: 1
 
-Gantt Chart:
---------------------------------------------------
-|P1(0-4)|P2(4-7)|P3(7-8)|
---------------------------------------------------
+[Gantt chart and metrics will be displayed]
 ```
 
-## Tips for Testing 🎓
+## Testing Tips 🎓
 
-- Start with FCFS - it's the easiest to understand
-- Try the same processes with different algorithms to see how performance changes
-- Round Robin is great for seeing how time quantum affects fairness
-- SRTF usually gives the best average waiting times
+1. **Start Simple**
+   - Try FCFS first with 2-3 processes
+   - Make sure arrival times make sense
 
-## Need Help? 🤔
+2. **Explore Algorithms**
+   - Compare same processes across different algorithms
+   - Notice how metrics change
 
-If something's not clear or you find a bug:
-1. Double-check your input values
-2. Make sure arrival times make sense
-3. For Priority Scheduling, remember lower numbers = higher priority
+3. **Round Robin Testing**
+   - Try different time quantum values
+   - Watch how it affects fairness
 
-## Technical Details (for the curious) 🔧
+4. **Priority Scheduling**
+   - Test with mixed priorities
+   - See how priority affects order
 
-The simulator uses:
-- Python's dataclasses for clean process management
-- Deque for efficient queue operations in Round Robin
-- Simple but effective ASCII art for Gantt charts
+## Troubleshooting 🔍
 
-That's it! Have fun exploring different scheduling scenarios! 🎉
+Common issues and solutions:
+
+1. **Invalid Input**
+   - Use only positive integers
+   - Arrival times can be 0 or positive
+   - Burst times must be positive
+
+2. **Unexpected Results**
+   - Double-check process parameters
+   - Verify algorithm selection
+   - Make sure priorities are properly set
+
+## Contributing 🤝
+
+Feel free to:
+- Report bugs
+- Suggest improvements
+- Add new features
+- Enhance visualizations
+
+## Future Enhancements 🚀
+
+Planned improvements:
+- Additional scheduling algorithms
+- More detailed process statistics
+- Enhanced visualization options
+- Performance metrics
+- Process priority changes over time
+
+## Need Help? 💭
+
+If you encounter issues:
+1. Verify your Python version
+2. Check input values
+3. Follow the example usage
+4. Try simpler process configurations first
+
+Happy Scheduling! 🎉
